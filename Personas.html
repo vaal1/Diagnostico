@@ -18,58 +18,44 @@
         <h1 class="display-4">Gestión de Personas</h1>
       </div>
   
-      <div id="div0" class="container">
-        <div class="card-deck mb-3 text-center">
-          <div class="card mb-4 box-shadow">
-            <div class="card-header" id="nombre">
-              <h4 class="my-0 font-weight-normal" id="user0">Nombre</h4>
-            </div>
-            <div class="card-body">
-              <ul class="list-unstyled mt-3 mb-4">
-                <div id="img"></div>
-                <br>
-                <li>
-                  <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="editar()">Editar</button>
-                  <button type="button" class="btn btn-lg btn-block btn-outline-secondary" onclick="eliminar()">Eliminar</button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-     </div> 
+      <div id="div0" class="container"></div>
+      <div id="div1" class="container"></div>
+      <div id="div2" class="container"></div>
+      <div id="div3" class="container"></div>
+      <div id="div4" class="container"></div>
+      <div id="div5" class="container"></div>
+
 <script>
 
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "https://reqres.in/api/users/", true);
-xhr.onload=function(){
-    console.log(xhr.responseText);
-    var json = JSON.parse(xhr.responseText);
-
-    for (let index = 0; index < json['data'].length; index++) {
-
-      var div = document.createElement('div');
-      var newId = "div" + index;
-      document.getElementById(newId).id = newId; 
-      document.getElementById(newId).appendChild(div);
-
-      var h = document.createElement('h4'); 
-      h.setAttribute("class","my-0 font-weight-normal");
-      h.id = "user" + index;
-      document.getElementById('nombre').appendChild(h);
-
-      var id = "user"+index;
-      document.getElementById(id).innerHTML=json['data'][index]['first_name'];
-
-      var img = document.createElement('img');
-      img.setAttribute("class","rounded-circle");
-      img.id="img"+index;
-      document.getElementById('img').appendChild(img);
-
-      img.setAttribute("src",json['data'][index]['avatar']);
-      
-    }
-};
-xhr.send();
+fetch("https://reqres.in/api/users/")
+.then(response=>response.json())
+.then(res =>{console.log(res)
+for (let index = 0; index < 4; index++) {
+  id="div"+index;
+  document.getElementById(id).innerHTML = `
+  <div class="container">
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 box-shadow">
+        <div class="card-header" id="nombre">
+          <h4> ${res['data'][index]['first_name']} </h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled mt-3 mb-4">
+          <img width="140" height="140" class="rounded-circle" id="img" src=${res['data'][index]['avatar']}>
+          <br>
+          <br>
+          <li>
+            <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="editar()">Editar</button>
+            <button type="button" class="btn btn-lg btn-block btn-outline-secondary" onclick="eliminar()">Eliminar</button>
+          </li>
+        </ul>          
+      </div>
+  </div>
+  </div>`
+  ;
+}    
+})
 
 </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
